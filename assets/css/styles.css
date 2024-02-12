@@ -1,3 +1,4 @@
+/* Reset default margin and padding */
 html,
 body {
   height: 100%;
@@ -5,17 +6,20 @@ body {
   padding: 0;
 }
 
-.save-note, .new-note, .clear-btn {
+/* Save note button hidden */
+.save-note {
   display: none;
 }
 
-.icons {
+/* Styles for icons */
+.icons i {
   margin-left: 15px;
   margin-right: 15px;
   font-size: 1.5rem;
   cursor: pointer;
 }
 
+/* Styles for note textarea and title */
 .note-textarea,
 .note-title {
   color: #000000;
@@ -24,23 +28,27 @@ body {
   border: none;
 }
 
+/* Styles for note textarea */
 .note-textarea {
   resize: none;
   height: calc(100% - 63px);
   padding-top: 15px;
 }
 
+/* Styles for note title */
 .note-title {
   height: 50px;
   margin-top: 13px;
   font-size: 3rem;
 }
 
+/* Styles for read-only note textarea and title */
 .note-title:read-only,
 .note-textarea:read-only {
   color: #757575;
 }
 
+/* Styles for list container and card */
 .list-container .card {
   height: calc(100vh - 70px);
   border-bottom: none;
@@ -60,16 +68,19 @@ body {
   border-top-left-radius: 0;
 }
 
+/* Styles for list item title */
 .list-item-title {
   display: inline-block;
   width: 75%;
 }
 
+/* Styles for icons within list container */
 .list-container i {
   font-size: 1.1rem;
   cursor: pointer;
 }
 
+/* Styles for list group items */
 .list-container .list-group-item {
   border-left: none;
   border-right: none;
