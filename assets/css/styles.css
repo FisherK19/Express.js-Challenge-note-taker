@@ -1,17 +1,27 @@
-/* Reset default margin and padding */
-html,
-body {
+html, body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
-/* Save note button hidden */
+h1, h2, h3, h4, h5 , h6 {
+  font-family: 'Just Another Hand', cursive;
+}
+
+h1.display-4 {
+  font-size: 60pt;
+  letter-spacing: 1.5pt;
+}
+
+h4.subtitle {
+  font-size: 35pt;
+  letter-spacing: 1pt;
+}
+
 .save-note {
   display: none;
 }
 
-/* Styles for icons */
 .icons i {
   margin-left: 15px;
   margin-right: 15px;
@@ -19,36 +29,29 @@ body {
   cursor: pointer;
 }
 
-/* Styles for note textarea and title */
-.note-textarea,
-.note-title {
+.note-textarea, .note-title {
   color: #000000;
   width: 100%;
   outline: none;
   border: none;
 }
 
-/* Styles for note textarea */
 .note-textarea {
   resize: none;
   height: calc(100% - 63px);
   padding-top: 15px;
 }
 
-/* Styles for note title */
 .note-title {
   height: 50px;
   margin-top: 13px;
   font-size: 3rem;
 }
 
-/* Styles for read-only note textarea and title */
-.note-title:read-only,
-.note-textarea:read-only {
+.note-title:read-only, .note-textarea:read-only {
   color: #757575;
 }
 
-/* Styles for list container and card */
 .list-container .card {
   height: calc(100vh - 70px);
   border-bottom: none;
@@ -68,22 +71,25 @@ body {
   border-top-left-radius: 0;
 }
 
-/* Styles for list item title */
-.list-item-title {
-  display: inline-block;
-  width: 75%;
-}
-
-/* Styles for icons within list container */
 .list-container i {
   font-size: 1.1rem;
   cursor: pointer;
 }
 
-/* Styles for list group items */
 .list-container .list-group-item {
   border-left: none;
   border-right: none;
   padding: 20px;
   cursor: pointer;
+  font-family: 'Just Another Hand', cursive;
+  font-size: 24pt;
+  letter-spacing: 1pt;
+}
+
+.nav-bg {
+  background-color: #6c848b !important;
+}
+
+.container-bg {
+  background-color: #f4eeff;
 }

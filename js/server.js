@@ -1,27 +1,18 @@
 const express = require('express');
-const app = express();
-const fs = require('fs');
 const path = require('path');
 
-// Define route to get all notes
-app.get('/api/notes', (req, res) => {
-    const data = fs.readFileSync(path.resolve(__dirname, 'db/db.json'), 'utf8');
-    const notes = JSON.parse(data);
-    res.json(notes);
-});
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Define route to add a new note
-app.post('/api/notes', (req, res) => {
-    // Your logic to add a new note to the database
-});
+// Serve static files (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Define route to delete a note
-app.delete('/api/notes/:id', (req, res) => {
-    // logic to delete a note from the database
-});
+// Define API endpoints
+app.use('/api/notes', require('../routes/apiroutes.js'));
+
 
 // Start the server
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
+
