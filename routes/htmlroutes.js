@@ -1,29 +1,15 @@
-// Import required modules
+const path = require('path');
 const express = require('express');
 const router = express.Router();
 
-// Define routes
-
-// Example GET route
-router.get('/api/example', (req, res) => {
-    // Handle GET request
-    res.send('Response from GET request');
+// Route to serve the landing page
+router.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../index.html'));
 });
 
-// Example POST route
-router.post('/api/example', (req, res) => {
-    // Handle POST request
-    res.send('Response from POST request');
+// Route to serve the notes page
+router.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, '../notes.html'));
 });
 
-// Example route with URL parameters
-router.get('/api/example/:id', (req, res) => {
-    // Access URL parameter using req.params
-    const id = req.params.id;
-    // Handle request based on URL parameter
-    res.send(`Response from GET request with id ${id}`);
-});
-
-// Export the router
 module.exports = router;
-
