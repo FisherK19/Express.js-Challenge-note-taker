@@ -7,6 +7,7 @@ let newNoteBtn;
 let noteList;
 let clearBtn;
 
+if (typeof window !== 'undefined') {
   // Check window location
   if (window.location.pathname === '/notes') {
     // Select DOM elements
@@ -196,3 +197,4 @@ let clearBtn;
   }
 
   getAndRenderNotes();
+};
