@@ -1,16 +1,16 @@
 // Dependencies
 const router = require('express').Router();
 
-import { retrieveNotes, addNote, deleteNote } from '../db/saveData';
+const { retrieveNotes, addNote, deleteNote } = require('../db/saveData');
 
-// GET request
+// GET-request
 router.get('/notes', function (req, res) {
     retrieveNotes()
         .then(notes => res.json(notes))
         .catch(err => res.status(500).json(err));
 });
 
-// POST request
+// POSTrequest
 router.post('/notes', (req, res) => {
     addNote(req.body)
         .then((note) => res.json(note))
@@ -24,7 +24,6 @@ router.delete('/notes/:id', function (req, res) {
         .catch(err => res.status(500).json(err));
 });
 
-
-export default router;
+module.exports = router; // Use module.exports instead of export default
 
 
