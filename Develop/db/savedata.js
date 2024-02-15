@@ -21,4 +21,4 @@ const deleteNote = (id) => {
     return Promise.resolve();
 };
 
-module.exports = { retrieveNotes, addNote, deleteNote };
+export default { retrieveNotes, addNote, deleteNote };

@@ -1,6 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // Your JavaScript code here
-
   // Define variables
   let noteForm;
   let noteTitle;
@@ -20,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     clearBtn = document.querySelector('.clear-btn');
     noteList = document.querySelectorAll('.list-container .list-group');
   }
-});
 
 // Show an element
 const show = (elem) => {
