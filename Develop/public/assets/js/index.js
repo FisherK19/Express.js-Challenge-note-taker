@@ -7,8 +7,6 @@ let newNoteBtn;
 let noteList;
 let clearBtn;
 
-// Check if the window object is available (for client-side JavaScript)
-if (typeof window !== 'undefined') {
   // Check window location
   if (window.location.pathname === '/notes') {
     // Select DOM elements
@@ -198,4 +196,3 @@ if (typeof window !== 'undefined') {
   }
 
   getAndRenderNotes();
-}
