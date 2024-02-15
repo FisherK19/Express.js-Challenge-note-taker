@@ -1,29 +1,33 @@
-const express = require('express');
-const router = express.Router();
-const { notes } = require('../db/db.json'); 
+// Dependencies
+const router = require('express').Router();
 
-// Get all notes
-router.get('/notes', (req, res) => {
-  res.json(notes);
+const saveData = require('../db/saveData');
+
+// GET request
+router.get('/notes', function (req, res) {
+    saveData
+        .retrieveNotes()
+        .then(notes => res.json(notes))
+        .catch(err => res.status(500).json(err));
 });
 
-// Add a new note
+// POST request
 router.post('/notes', (req, res) => {
-  const newNote = req.body;
-  newNote.id = Math.random().toString(36).substr(2, 9); 
-  notes.push(newNote);
-  res.json(newNote);
+    saveData
+        .addNote(req.body)
+        .then((note) => res.json(note))
+        .catch(err => res.status(500).json(err));
 });
 
-router.delete('/notes/:id', (req, res) => {
-  const { id } = req.params;
-  const index = notes.findIndex(note => note.id === id);
-  if (index !== -1) {
-    notes.splice(index, 1);
-    res.sendStatus(204);
-  } else {
-    res.status(404).json({ message: 'Note not found' });
-  }
+// Bonus - DELETE 
+router.delete('/notes/:id', function (req, res) {
+    saveData
+        .deleteNote(req.params.id)
+        .then(() => res.json({ ok: true }))
+        .catch(err => res.status(500).json(err));
 });
+
 
 module.exports = router;
+
+

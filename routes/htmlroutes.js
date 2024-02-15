@@ -1,15 +1,19 @@
+// Dependencies
 const path = require('path');
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 
-// Route to serve the landing page
-router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html'));
-});
-
-// Route to serve the notes page
+// This has to be on the top than the other routers
 router.get('/notes', (req, res) => {
-  res.sendFile(path.join(__dirname, '../notes.html'));
+    res.sendFile(path.join(__dirname, '../public/notes.html'));
 });
+
+router.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+router.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
 
 module.exports = router;

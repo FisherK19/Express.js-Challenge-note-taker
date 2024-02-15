@@ -1,13 +1,25 @@
 const express = require('express');
-const path = require('path');
+const apiRoutes = require('./routes/apiRoutes');
+const htmlRoutes = require('./routes/htmlRoutes');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3001;
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
+// Middleware to parse incoming request data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// Start the server
+// Serve static files from the public directory
+app.use(express.static('public'));
+
+// Use API routes defined in apiRoutes.js
+app.use('/api', apiRoutes);
+
+// Use HTML routes defined in htmlRoutes.js
+app.use('/', htmlRoutes);
+
+// Listener
 app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+    console.log(`API server is ready on port ${PORT}!`);
 });
+
