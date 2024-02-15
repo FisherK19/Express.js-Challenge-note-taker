@@ -1,19 +1,26 @@
-let noteForm;
-let noteTitle;
-let noteText;
-let saveNoteBtn;
-let newNoteBtn;
-let noteList;
+document.addEventListener('DOMContentLoaded', () => {
+  // Your JavaScript code here
 
-if (window.location.pathname === '/notes') {
-  noteForm = document.querySelector('.note-form');
-  noteTitle = document.querySelector('.note-title');
-  noteText = document.querySelector('.note-textarea');
-  saveNoteBtn = document.querySelector('.save-note');
-  newNoteBtn = document.querySelector('.new-note');
-  clearBtn = document.querySelector('.clear-btn');
-  noteList = document.querySelectorAll('.list-container .list-group');
-}
+  // Define variables
+  let noteForm;
+  let noteTitle;
+  let noteText;
+  let saveNoteBtn;
+  let newNoteBtn;
+  let noteList;
+  
+  // Check window location
+  if (window.location.pathname === '/notes') {
+    // Select DOM elements
+    noteForm = document.querySelector('.note-form');
+    noteTitle = document.querySelector('.note-title');
+    noteText = document.querySelector('.note-textarea');
+    saveNoteBtn = document.querySelector('.save-note');
+    newNoteBtn = document.querySelector('.new-note');
+    clearBtn = document.querySelector('.clear-btn');
+    noteList = document.querySelectorAll('.list-container .list-group');
+  }
+});
 
 // Show an element
 const show = (elem) => {
@@ -27,7 +34,7 @@ const hide = (elem) => {
 
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
-
+  
 const getNotes = () =>
   fetch('/api/notes', {
     method: 'GET',
