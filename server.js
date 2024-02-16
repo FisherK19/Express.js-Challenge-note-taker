@@ -3,6 +3,9 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 const PORT = 3004;
+const publicPath = path.join(__dirname, 'public');
+require('dotenv').config();
+
 
 // Allow requests from http://localhost:3004
 app.use(cors({
@@ -10,11 +13,11 @@ app.use(cors({
 }));
 
 // Serve static files from the public directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(publicPath));
 
-// Define routes
+// Define route for serving index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(publicPath, 'index.html'));
 });
 
 // Start the server
