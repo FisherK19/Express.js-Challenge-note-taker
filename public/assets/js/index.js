@@ -72,7 +72,7 @@ const renderActiveNote = () => {
     $noteTitle.value = '';
     $noteText.value = '';
   }
-  handleRenderSaveBtn();
+  handleRenderSaveBtn(); // Ensure save button is displayed correctly
 };
 
 // Get the note data from the inputs, save it to the db and update the view
@@ -93,42 +93,41 @@ const handleNoteSave = () => {
 
 // Delete the clicked note
 const handleNoteDelete = (event) => {
-  const note = event.target.closest('.list-group-item').dataset;
-  if (activeNote.id === note.id) {
-    activeNote = {};
-    renderActiveNote();
+  if (event.target.classList.contains('delete-note')) {
+    const noteId = event.target.parentElement.dataset.id;
+    deleteNote(noteId).then(() => {
+      getAndRenderNotes();
+    });
   }
-  deleteNote(note.id).then(() => {
-    getAndRenderNotes();
-  });
 };
 
 // Sets the activeNote and displays it
 const handleNoteView = (event) => {
-  activeNote = event.target.closest('.list-group-item').dataset;
-  renderActiveNote();
+  const noteId = event.target.closest('.list-group-item').dataset.id;
+  getNotes()
+    .then((notes) => {
+      const selectedNote = notes.find(note => note.id === noteId);
+      if (selectedNote) {
+        $noteTitle.value = selectedNote.title;
+        $noteText.value = selectedNote.text;
+        renderActiveNote();
+      }
+    })
+    .catch(error => console.error('Error fetching notes:', error));
 };
 
-// Sets the activeNote to and empty object and allows the user to enter a new note
+// Sets the activeNote to an empty object and allows the user to enter a new note
 const handleNewNoteView = () => {
   activeNote = {};
   renderActiveNote();
 };
 
-// If a note's title or text are empty, hide the save button
-// Or else show it
+
 const handleRenderSaveBtn = () => {
-  if (!$noteTitle.value.trim() || !$noteText.value.trim()) {
-    $saveNoteBtn.style.display = 'none';
-  } else {
-    $saveNoteBtn.style.display = 'inline';
-  }
+  $saveNoteBtn.style.display = 'inline';
 };
 
-const deleteNoteBtn = document.querySelector('.delete-note');
-deleteNoteBtn.addEventListener('click', handleNoteDelete);
-
-// Render's the list of note titles
+// Render the list of note titles
 const renderNoteList = (notes) => {
   $noteList.innerHTML = '';
   notes.forEach(note => {
@@ -146,3 +145,4 @@ const renderNoteList = (notes) => {
 const getAndRenderNotes = () => {
   getNotes().then(renderNoteList);
 };
+
