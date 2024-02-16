@@ -1,4 +1,6 @@
 # Express.js-Challenge-note-taker
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 <h1>Note Taker </h1>
 
