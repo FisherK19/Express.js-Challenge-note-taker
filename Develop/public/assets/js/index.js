@@ -34,12 +34,12 @@ if (typeof window !== 'undefined') {
   let activeNote = {};
 
   const getNotes = () =>
-    fetch('/api/notes', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+  fetch('http://localhost:3004/api/notes', { 
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
 
   const saveNote = (note) =>
     fetch('/api/notes', {

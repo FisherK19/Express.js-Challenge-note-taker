@@ -1,26 +1,23 @@
 const express = require('express');
-const apiRoutes = require('./routes/apiRoutes');
-const htmlRoutes = require('./routes/htmlRoutes');
-
-
+const cors = require('cors');
+const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = 3004;
 
-// Middleware to parse incoming request data
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// Allow requests from http://localhost:3004
+app.use(cors({
+  origin: 'http://localhost:3004'
+}));
 
 // Serve static files from the public directory
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Use API routes defined in apiRoutes.js
-app.use('/api', apiRoutes);
-
-// Use HTML routes defined in htmlRoutes.js
-app.use('/', htmlRoutes);
-
-// Listener
-app.listen(PORT, () => {
-    console.log(`API server is ready on port ${PORT}!`);
+// Define routes
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
