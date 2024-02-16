@@ -1,26 +1,29 @@
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
+const saveDataRoutes = require('./routes/routes');
 const app = express();
-const PORT = 3004;
-const publicPath = path.join(__dirname, 'public');
-require('dotenv').config();
 
-
-// Allow requests from http://localhost:3004
-app.use(cors({
-  origin: 'http://localhost:3004'
-}));
+// Middleware to parse JSON requests
+app.use(express.json());
 
 // Serve static files from the public directory
-app.use(express.static(publicPath));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Define route for serving index.html
+// Define route for serving the landing page (index.html)
 app.get('/', (req, res) => {
-  res.sendFile(path.join(publicPath, 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Define route for serving the notes page (notes.html)
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'notes.html'));
+});
+
+// Use API routes for handling saveData
+app.use('/api', saveDataRoutes);
+
 // Start the server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
