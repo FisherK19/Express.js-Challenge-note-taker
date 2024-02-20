@@ -105,7 +105,7 @@ const handleNoteDelete = (event) => {
 const handleNoteView = (event) => {
   const noteId = event.target.closest('.list-group-item').dataset.id;
   getNotes().then((notes) => {
-    const selectedNote = notes.find(note => note.id === noteId);
+    const selectedNote = notes.find((note) => note.id === noteId);
     if (selectedNote) {
       $noteTitle.value = selectedNote.title;
       $noteText.value = selectedNote.text;
