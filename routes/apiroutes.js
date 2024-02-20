@@ -1,18 +1,17 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
 // Read notes from db.json
 function getNotes() {
-  const data = fs.readFileSync(path.join(__dirname, '../Develop/db/db.json'), 'utf8');
+  const data = fs.readFileSync(path.join(__dirname, '../public/db.json'), 'utf8');
   return JSON.parse(data) || [];
 }
 
 // Save notes to db.json
 function saveNotes(notes) {
-  fs.writeFileSync(path.join(__dirname, '../Develop/db/db.json'), JSON.stringify(notes), 'utf8');
+  fs.writeFileSync(path.join(__dirname, '../public/db.json'), JSON.stringify(notes), 'utf8');
 }
 
 router.get('/notes', (req, res) => {
@@ -45,9 +44,3 @@ router.delete('/notes/:id', (req, res) => {
 });
 
 module.exports = router;
-
-
-
-
-
-
