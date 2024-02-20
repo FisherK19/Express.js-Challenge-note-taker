@@ -1,87 +1,99 @@
-// Import necessary modules and dependencies
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
-const { v4: uuidv4 } = require('uuid');
-
-// Create an instance of Express app
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middleware to handle JSON parsing
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static('public'));
-
-// Route to serve the homepage
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// Add event listeners for saving and creating new notes when the page loads
+window.addEventListener('load', function() {
+  document.querySelector('.save-note').addEventListener('click', saveNote);
+  document.querySelector('.new-note').addEventListener('click', createNewNote);
 });
 
-// Route to serve the notes page
-app.get('/notes', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'notes.html'));
-});
+// Function to save a note
+function saveNote() {
+  var title = document.querySelector('.note-title').value;
+  var text = document.querySelector('.note-textarea').value;
 
-// Route to handle API requests for getting notes
-app.get('/api/notes', (req, res) => {
-  fs.readFile(path.join(__dirname, 'db', 'db.json'), 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Failed to read notes data' });
-      return;
-    }
-    const notes = JSON.parse(data);
-    res.json(notes);
+  if (title.trim() !== '' && text.trim() !== '') {
+      var listItem = document.createElement('li');
+      listItem.classList.add('list-group-item');
+
+      var deleteButton = document.createElement('button');
+      deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+      deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'float-end', 'delete-button');
+
+      deleteButton.addEventListener('click', function(event) {
+          event.stopPropagation();
+          deleteNote(listItem);
+      });
+
+      listItem.addEventListener('click', function() {
+          displayNoteContent(title, text);
+      });
+
+      listItem.appendChild(deleteButton);
+      listItem.appendChild(document.createTextNode(title));
+
+      document.getElementById('note-list').appendChild(listItem);
+
+      saveToLocalStorage();
+
+      document.querySelector('.note-title').value = '';
+      document.querySelector('.note-textarea').value = '';
+  } else {
+      alert('Title and text cannot be empty!');
+  }
+}
+
+// Function to create a new note
+function createNewNote() {
+  document.querySelector('.note-title').value = '';
+  document.querySelector('.note-textarea').value = '';
+}
+
+// Function to delete a note
+function deleteNote(listItem) {
+  listItem.remove();
+  saveToLocalStorage();
+}
+
+// Function to display note content
+function displayNoteContent(title, text) {
+  document.querySelector('.note-title').value = title;
+  document.querySelector('.note-textarea').value = text;
+}
+
+// Function to save notes to local storage
+function saveToLocalStorage() {
+  var notes = [];
+  var listItems = document.querySelectorAll('.list-group-item');
+  listItems.forEach(function(item) {
+      notes.push(item.textContent.trim());
   });
-});
+  localStorage.setItem('notes', JSON.stringify(notes));
+}
 
-// Route to handle saving a new note
-app.post('/api/notes', (req, res) => {
-  const newNote = req.body;
-  newNote.id = uuidv4(); 
-  fs.readFile(path.join(__dirname, 'db', 'db.json'), 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Failed to read notes data' });
-      return;
-    }
-    const notes = JSON.parse(data);
-    notes.push(newNote);
-    fs.writeFile(path.join(__dirname, 'db', 'db.json'), JSON.stringify(notes), (err) => {
-      if (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to save note' });
-        return;
-      }
-      res.json(newNote);
-    });
-  });
-});
+// Function to load notes from local storage
+function loadNotes() {
+  var storedNotes = localStorage.getItem('notes');
+  if (storedNotes) {
+      var notes = JSON.parse(storedNotes);
+      notes.forEach(function(note) {
+          var listItem = document.createElement('li');
+          listItem.classList.add('list-group-item');
 
-// Route to handle deleting a note by ID
-app.delete('/api/notes/:id', (req, res) => {
-  const noteId = req.params.id;
-  fs.readFile(path.join(__dirname, 'db', 'db.json'), 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Failed to read notes data' });
-      return;
-    }
-    const notes = JSON.parse(data);
-    const updatedNotes = notes.filter(note => note.id !== noteId);
-    fs.writeFile(path.join(__dirname, 'db', 'db.json'), JSON.stringify(updatedNotes), (err) => {
-      if (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to delete note' });
-        return;
-      }
-      res.json({ message: 'Note deleted successfully' });
-    });
-  });
-});
+          var deleteButton = document.createElement('button');
+          deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+          deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'float-end', 'delete-button');
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is listening on http://localhost:${PORT}`);
-});
+          deleteButton.addEventListener('click', function(event) {
+              event.stopPropagation();
+              deleteNote(listItem);
+          });
+
+          listItem.addEventListener('click', function() {
+              displayNoteContent(note, '');
+          });
+
+          listItem.appendChild(deleteButton);
+          listItem.appendChild(document.createTextNode(note));
+
+          document.getElementById('note-list').appendChild(listItem);
+      });
+  }
+}

@@ -1,24 +1,24 @@
 const express = require('express');
-const apiRoutes = require('./routes/apiroutes');
-const htmlRoutes = require('./routes/htmlroutes'); // Make sure the path is correct
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static('public'));
+// Middleware to serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Mount API routes
+
+// Importing routes
+const apiRoutes = require('./routes/apiroutes');
+const htmlRoutes = require('./routes/htmlroutes');
+
+// Mounting routes
 app.use('/api', apiRoutes);
-
-// Mount HTML routes
 app.use('/', htmlRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on http://localhost:${PORT}`);
 });
-
 
 
 
