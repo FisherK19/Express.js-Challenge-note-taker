@@ -38,6 +38,13 @@ THEN I am presented with empty fields to enter a new note title and the note’s
 ## Screenshots
 ![landing page](./public/images/landing%20page.png)
 ![landing page](./public/images/note%20taker.png)
+
+### Githublink: 
+https://github.com/FisherK19/Express.js-Challenge-note-taker
+
+### URL:
+https://fisherk19-express-js-challenge-note-taker.onrender.com
+
 ## Technologies Used
 Express.js
 Node.js
@@ -51,9 +58,4 @@ google
 ### License
 This project is licensed under the MIT License.
 
-### Githublink: 
-https://github.com/FisherK19/Express.js-Challenge-note-taker
-
-### URL:
-https://fisherk19-express-js-challenge-note-taker.onrender.com
 
