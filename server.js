@@ -1,26 +1,16 @@
 const express = require('express');
-const path = require('path');
-const apiRoutes = require('./routes/apiRoutes');
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const routes = require('./routes');
 
-// Middleware for parsing JSON and urlencoded form data
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+// Routes
+app.use('/api/notes', routes);
 
-// Route for API endpoints
-app.use('/api', apiRoutes);
-
-// Send index.html for any other requests
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
-});
-
-// Start the server
+// Start server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:300`);
+  console.log(`Server running on port ${PORT}`);
 });
