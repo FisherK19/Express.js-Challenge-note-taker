@@ -5,14 +5,18 @@ let $saveNoteBtn;
 let $newNoteBtn;
 let $noteList;
 
-// Wait for the DOM to be ready
 document.addEventListener('DOMContentLoaded', () => {
-  // Check window location
-  if (window.location.pathname === '/notes.html') {
-    // Functions for notes.html (the note-taking interface)
-    initializeNoteTaking();
+  const saveButton = document.querySelector('.save-note');
+
+  if (saveButton) {
+      console.log('Save button found:', saveButton); 
+      saveButton.addEventListener('click', handleNoteSave);
+      console.log('Event listener added to save button');
+  } else {
+      console.error('Save button not found'); 
   }
 });
+
 
 // Function to initialize note-taking interface
 function initializeNoteTaking() {
