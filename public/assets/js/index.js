@@ -83,13 +83,25 @@ const handleNoteSave = () => {
   };
 
   saveNote(newNote).then(() => {
+    // Clear input fields after saving
+    $noteTitle.value = '';
+    $noteText.value = '';
+
     // After saving, fetch and render the updated list of notes
-    getAndRenderNotes();
-    // Reset the active note and form fields
-    activeNote = {};
-    renderActiveNote();
+    getAndRenderNotes().then((notes) => {
+      // Find the newly saved note in the list
+      const savedNote = notes.find(note => note.title === newNote.title && note.text === newNote.text);
+
+      // Set the activeNote to the saved note
+      activeNote = savedNote || {};
+
+      // Render the active note
+      renderActiveNote();
+    });
   });
 };
+
+
 
 // Delete the clicked note
 const handleNoteDelete = (event) => {
@@ -145,4 +157,5 @@ const renderNoteList = (notes) => {
 const getAndRenderNotes = () => {
   getNotes().then(renderNoteList);
 };
+
 
