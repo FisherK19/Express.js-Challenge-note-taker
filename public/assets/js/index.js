@@ -16,14 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to initialize note-taking interface
 function initializeNoteTaking() {
-  // Select DOM elements and set up event listeners
   $noteTitle = document.querySelector('.note-title');
   $noteText = document.querySelector('.note-textarea');
   $saveNoteBtn = document.querySelector('.save-note');
   $newNoteBtn = document.querySelector('.new-note');
   $noteList = document.querySelector('.list-container .list-group');
 
-  // Check if any of the required elements are missing
   if (!$noteTitle || !$noteText || !$saveNoteBtn || !$newNoteBtn || !$noteList) {
     console.error("One or more required elements are missing.");
     return;
@@ -84,24 +82,28 @@ const renderActiveNote = () => {
     $noteTitle.value = '';
     $noteText.value = '';
   }
-  handleRenderSaveBtn(); // Ensure save button is displayed correctly
+  handleRenderSaveBtn(); 
 };
 
 // Function to handle saving a note
 const handleNoteSave = () => {
+  console.log("Save button clicked"); 
   const newNote = {
     title: $noteTitle.value,
     text: $noteText.value
   };
 
+  console.log("New Note:", newNote); 
+
   saveNote(newNote).then(() => {
+    console.log("Note saved successfully"); 
+
     // Clear input fields after saving
     $noteTitle.value = '';
     $noteText.value = '';
 
     // After saving, fetch and render the updated list of notes
     getAndRenderNotes().then((notes) => {
-      // Find the newly saved note in the list
       const savedNote = notes.find(note => note.title === newNote.title && note.text === newNote.text);
 
       // Set the activeNote to the saved note
@@ -110,6 +112,8 @@ const handleNoteSave = () => {
       // Render the active note
       renderActiveNote();
     });
+  }).catch(err => {
+    console.error('Error saving note:', err); 
   });
 };
 
@@ -167,4 +171,3 @@ const renderNoteList = (notes) => {
 const getAndRenderNotes = () => {
   getNotes().then(renderNoteList);
 };
-
