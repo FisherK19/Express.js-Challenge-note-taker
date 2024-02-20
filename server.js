@@ -1,16 +1,17 @@
 const express = require('express');
 const app = express();
-const routes = require('./routes');
+const PORT = process.env.PORT || 3000; 
+const routes = require('./routes/routes');
 
 // Middleware
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static('public'));
 
 // Routes
-app.use('/api/notes', routes);
+app.use(routes);
 
 // Start server
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server listening on PORT: ${PORT}`);
 });

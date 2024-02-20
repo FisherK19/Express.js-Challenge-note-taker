@@ -1,53 +1,43 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
+const path = require('path');
+const { v4: uuidv4 } = require('uuid');
 
-let notes = []; // Array to store notes
+// Read notes from db.json
+function getNotes() {
+  const data = fs.readFileSync(path.join(__dirname, '../Develop/db/db.json'), 'utf8');
+  return JSON.parse(data) || [];
+}
 
-// GET all notes
-router.get('/', (req, res) => {
+// Save notes to db.json
+function saveNotes(notes) {
+  fs.writeFileSync(path.join(__dirname, '../Develop/db/db.json'), JSON.stringify(notes), 'utf8');
+}
+
+router.get('/notes', (req, res) => {
+  const notes = getNotes();
   res.json(notes);
 });
 
-// GET a single note by ID
-router.get('/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  const note = notes.find(note => note.id === id);
-  if (note) {
-    res.json(note);
-  } else {
-    res.status(404).json({ error: 'Note not found' });
-  }
-});
-
-// POST a new note
 router.post('/notes', (req, res) => {
-  const { title, text } = req.body;
-  const id = uuidv4(); 
-  const newNote = { id, title, text };
+  const newNote = req.body;
+  newNote.id = uuidv4();
+  const notes = getNotes();
   notes.push(newNote);
-  res.status(201).json(newNote);
+  saveNotes(notes);
+  res.json(newNote);
 });
 
+router.delete('/notes/:id', (req, res) => {
+  const noteId = req.params.id;
+  const notes = getNotes();
+  
+  const noteIndex = notes.findIndex(note => note.id === noteId);
 
-// PUT update a note
-router.put('/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  const { title, text } = req.body;
-  const index = notes.findIndex(note => note.id === id);
-  if (index !== -1) {
-    notes[index] = { id, title, text };
-    res.json(notes[index]);
-  } else {
-    res.status(404).json({ error: 'Note not found' });
-  }
-});
-
-// DELETE a note
-router.delete('/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  const index = notes.findIndex(note => note.id === id);
-  if (index !== -1) {
-    notes.splice(index, 1);
+  if (noteIndex !== -1) {
+    notes.splice(noteIndex, 1);
+    saveNotes(notes);
     res.json({ message: 'Note deleted successfully' });
   } else {
     res.status(404).json({ error: 'Note not found' });
@@ -55,6 +45,7 @@ router.delete('/:id', (req, res) => {
 });
 
 module.exports = router;
+
 
 
 
