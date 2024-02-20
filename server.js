@@ -1,29 +1,38 @@
-const express = require('express');
+const fs = require('fs');
 const path = require('path');
-const saveDataRoutes = require('./routes/routes');
-const app = express();
+const { v4: uuidv4 } = require('uuid');
 
-// Middleware to parse JSON requests
-app.use(express.json());
+// Function to read notes from db.json file
+function getNotes() {
+  const data = fs.readFileSync(path.join(__dirname, 'db/db.json'), 'utf8');
+  return JSON.parse(data) || [];
+}
 
-// Serve static files from the public directory
-app.use(express.static(path.join(__dirname, 'public')));
+// Function to save notes to db.json file
+function saveNotes(notes) {
+  fs.writeFileSync(path.join(__dirname, 'db/db.json'), JSON.stringify(notes), 'utf8');
+}
 
-// Define route for serving the landing page (index.html)
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// Function to save a note to the database
+function saveNoteToDB(newNote) {
+  // Get existing notes
+  const notes = getNotes();
+  
+  // Assign a unique ID to the new note
+  newNote.id = uuidv4();
+  
+  // Add the new note to the list of notes
+  notes.push(newNote);
+  
+  // Save the updated list of notes to the database
+  saveNotes(notes);
+  
+  // Return the newly saved note
+  return newNote;
+}
 
-// Define route for serving the notes page (notes.html)
-app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'notes.html'));
-});
-
-// Use API routes for handling saveData
-app.use('/api', saveDataRoutes);
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+module.exports = {
+  getNotes,
+  saveNotes,
+  saveNoteToDB
+};
