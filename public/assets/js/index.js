@@ -16,11 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to initialize note-taking interface
 function initializeNoteTaking() {
+  // Select DOM elements and set up event listeners
   $noteTitle = document.querySelector('.note-title');
   $noteText = document.querySelector('.note-textarea');
   $saveNoteBtn = document.querySelector('.save-note');
   $newNoteBtn = document.querySelector('.new-note');
   $noteList = document.querySelector('.list-container .list-group');
+
+  // Check if any of the required elements are missing
+  if (!$noteTitle || !$noteText || !$saveNoteBtn || !$newNoteBtn || !$noteList) {
+    console.error("One or more required elements are missing.");
+    return;
+  }
 
   // Event listeners for interacting with the notes
   $saveNoteBtn.addEventListener('click', handleNoteSave);
@@ -77,7 +84,7 @@ const renderActiveNote = () => {
     $noteTitle.value = '';
     $noteText.value = '';
   }
-  handleRenderSaveBtn(); 
+  handleRenderSaveBtn(); // Ensure save button is displayed correctly
 };
 
 // Function to handle saving a note
@@ -94,6 +101,7 @@ const handleNoteSave = () => {
 
     // After saving, fetch and render the updated list of notes
     getAndRenderNotes().then((notes) => {
+      // Find the newly saved note in the list
       const savedNote = notes.find(note => note.title === newNote.title && note.text === newNote.text);
 
       // Set the activeNote to the saved note
@@ -159,3 +167,4 @@ const renderNoteList = (notes) => {
 const getAndRenderNotes = () => {
   getNotes().then(renderNoteList);
 };
+
