@@ -5,7 +5,11 @@ body {
 }
 
 .save-note {
-  display: inline;
+  display: inline; 
+}
+
+.icons {
+  margin-left: auto; 
 }
 
 .icons i {
@@ -65,17 +69,20 @@ body {
 }
 
 .list-container .list-group-item {
-border-left: none;
-border-right: none;
-padding: 20px;
-cursor: pointer;
-transition: background-color 0.3s ease;
+  border-left: none;
+  border-right: none;
+  padding: 20px;
+  cursor: pointer;
+  font-family: 'Just Another Hand', Arial, Helvetica, sans-serif;
+  font-size: 24pt;
+  letter-spacing: 1pt;
 }
 
-.list-container .list-group-item:hover {
+.nav-bg {
+  background-color: #63aed4 !important;
+}
 
-background-color: #f8f9fa; 
+.container-bg {
+  background-color: #f4eeff;
 }
-.list-container .list-group-item.active {
-background-color: #f8f9fa;
-}
+
