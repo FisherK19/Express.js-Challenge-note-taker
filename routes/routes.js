@@ -36,28 +36,18 @@ router.delete('/notes/:id', (req, res) => {
   const noteId = req.params.id;
   const notes = getNotes();
   
-  // Find the index of the note with the given ID
   const noteIndex = notes.findIndex(note => note.id === noteId);
 
   if (noteIndex !== -1) {
-    // Remove the note from the array
     notes.splice(noteIndex, 1);
-
-    // Save the updated notes to the file
     saveNotes(notes);
-
     res.json({ message: 'Note deleted successfully' });
   } else {
-    // If note with given ID is not found, return a 404 response
     res.status(404).json({ error: 'Note not found' });
   }
 });
 
-// Route for any other paths
-router.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
 module.exports = router;
+
 
 
