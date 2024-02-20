@@ -1,8 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const express = require('express');
-const router = express.Router();
 
 // Function to read notes from db.json file
 function getNotes() {
@@ -16,13 +14,13 @@ function saveNotes(notes) {
 }
 
 // Route to get all notes
-router.get('/notes', (req, res) => {
+app.get('/api/notes', (req, res) => {
   const notes = getNotes();
   res.json(notes);
 });
 
 // Route to save a new note
-router.post('/notes', (req, res) => {
+app.post('/api/notes', (req, res) => {
   const newNote = req.body;
   newNote.id = uuidv4();
   const notes = getNotes();
@@ -32,10 +30,9 @@ router.post('/notes', (req, res) => {
 });
 
 // Route to delete a note by ID
-router.delete('/notes/:id', (req, res) => {
+app.delete('/api/notes/:id', (req, res) => {
   const noteId = req.params.id;
   const notes = getNotes();
-  
   const noteIndex = notes.findIndex(note => note.id === noteId);
 
   if (noteIndex !== -1) {
@@ -47,7 +44,6 @@ router.delete('/notes/:id', (req, res) => {
   }
 });
 
-module.exports = router;
 
 
 
