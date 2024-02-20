@@ -55,6 +55,7 @@ const saveNote = (note) => {
     },
     body: JSON.stringify(note)
   })
+  .then(response => response.json()) // parse response as JSON
   .catch(error => console.error('Error saving note:', error));
 };
 
@@ -66,6 +67,7 @@ const deleteNote = (id) => {
       'Content-Type': 'application/json'
     }
   })
+  .then(response => response.json()) // parse response as JSON
   .catch(error => console.error('Error deleting note:', error));
 };
 
