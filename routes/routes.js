@@ -1,29 +1,11 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const { v4: uuidv4 } = require('uuid');
-
-const router = express.Router();
-
-// Function to read notes from the database file
-const getNotes = () => {
-  const data = fs.readFileSync(path.join(__dirname, '../db/db.json'), 'utf8');
-  return JSON.parse(data) || [];
-};
-
-// Function to save notes to the database file
-const saveNotes = (notes) => {
-  fs.writeFileSync(path.join(__dirname, '../db/db.json'), JSON.stringify(notes), 'utf8');
-};
-
 // Route to get all notes
-router.get('/notes', (req, res) => {
+router.get('/api/notes', (req, res) => {
   const notes = getNotes();
   res.json(notes);
 });
 
 // Route to save a new note
-router.post('/notes', (req, res) => {
+router.post('/api/notes', (req, res) => {
   const newNote = req.body;
   newNote.id = uuidv4();
   const notes = getNotes();
@@ -33,7 +15,7 @@ router.post('/notes', (req, res) => {
 });
 
 // Route to delete a note by ID
-router.delete('/notes/:id', (req, res) => {
+router.delete('/api/notes/:id', (req, res) => {
   const noteId = req.params.id;
   const notes = getNotes();
   
@@ -48,7 +30,6 @@ router.delete('/notes/:id', (req, res) => {
   }
 });
 
-module.exports = router;
 
 
 
