@@ -14,32 +14,41 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-dark bg-dark nav-bg">
-    <a class="navbar-brand" href="/">Note Taker
-    </a>
-    <div class="icons">
-      <i class="fas fa-save text-light save-note"></i>
-      <i class="fas fa-pen text-light new-note"></i>
-    </div>
-  </nav>
-  <div class="container-fluid">
+  <header>
+    <nav class="navbar navbar-dark bg-dark nav-bg">
+      <a class="navbar-brand" href="/">Note Taker</a>
+      <div class="icons">
+        <button class="btn btn-light save-note" id="save-note-btn">
+          <i class="fas fa-save"></i> Save Note
+        </button>
+        <button class="btn btn-light new-note" id="new-note-btn">
+          <i class="fas fa-pen"></i> New Note
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container-fluid">
     <div class="row">
-      <div class="col-4 list-container">
+      <div class="col-md-4 list-container">
         <div class="card">
           <ul class="list-group" id="note-list">
           </ul>
         </div>
       </div>
-      <div class="col-8">
-        <input class="note-title" placeholder="Note Title" maxlength="28" type="text">
-        <textarea class="note-textarea" placeholder="Note Text"></textarea>
-        <button class="btn btn-primary save-note">Save Note</button>
-        <button class="btn btn-secondary new-note">New Note</button>
+      <div class="col-md-8">
+        <input class="form-control note-title" placeholder="Note Title" maxlength="28" type="text">
+        <textarea class="form-control note-textarea" placeholder="Note Text"></textarea>
       </div>
     </div>
-  </div>
+  </main>
+
+  <footer>
+  </footer>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="assets/js/index.js"></script>
 </body>
 
 </html>
+
